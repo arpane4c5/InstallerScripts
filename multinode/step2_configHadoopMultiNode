@@ -1,0 +1,83 @@
+#!/bin/bash
+# DO NOT execute this file as super-user
+# Script to setup multi-node cluster setup hadoop-2.7.1 after the localhost cluster script is executed
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> Run step1_installJDK before running this file
+# --> Make sure you are connected to Internet.
+# --> Run this file after the step2_installHadoop (for localhost) has been executed
+
+
+# Manual steps
+# 1. Decide the IPs of the master nodes and the slave nodes (make the IPs static in the systems) and note their 
+#    corresponding hostnames. Do this step before the localhost setup
+# ---> If Debian is used then fix the IPv6 issue (have to use only IPv4 addresses)
+# 2. In the /etc/hosts file make the following changes:
+# Insert the <IP> <hostnames>  of the master and the slave nodes (for all the master and slave nodes)
+# 3. Put the IP addresses or hostnames in the master.txt and slave.txt files present with this file.
+
+# Create backup of the files that will have to be edited
+cp ~/hadoop-2.7.1/etc/hadoop/core-site.xml ~/hadoop-2.7.1/etc/hadoop/core-site_localhost.xml.template
+cp ~/hadoop-2.7.1/etc/hadoop/hdfs-site.xml ~/hadoop-2.7.1/etc/hadoop/hdfs-site_localhost.xml.template
+cp ~/hadoop-2.7.1/etc/hadoop/yarn-site.xml ~/hadoop-2.7.1/etc/hadoop/yarn-site_localhost.xml.template
+
+# Edit ...2.7.1/etc/hadoop/core-site.xml  # change the IP to master node IP or master node hostname
+sed -i 's/localhost/hadoop-masternode/g' ~/hadoop-2.7.1/etc/hadoop/core-site.xml
+
+# Edit hdfs-site.xml -- replication change from 1 to default = 3 // change second 1 to 3 for default case
+sed -i 's/>1</>1</g' ~/hadoop-2.7.1/etc/hadoop/hdfs-site.xml
+
+# Edit yarn-site.xml  -- add more properties to the yarn-site.xml
+sed -i '/<configuration>/r yarn.txt' ~/hadoop-2.7.1/etc/hadoop/yarn-site.xml
+
+
+# Copy the master.txt and slave.txt files as master and slave files # change the IPs of master and slaves in the files
+rm ~/hadoop-2.7.1/etc/hadoop/masters
+rm ~/hadoop-2.7.1/etc/hadoop/slaves
+cp master.txt ~/hadoop-2.7.1/etc/hadoop/masters
+cp slave.txt ~/hadoop-2.7.1/etc/hadoop/slaves
+
+# reboot manually
+
+# $ hadoop namenode -format
+# $ start-all.sh
+# $ jps (check in all 3 datanodes)
+
+
+# http://hadoop-masternode:8088/
+
+
+# http://hadoop-masternode:50070/
+
+
+# To format the namenode
+# hdfs namenode -format
+
+# To start dfs
+# start-dfs.sh
+
+# To start yarn
+# start-yarn.sh
+
+# OR Alternative to the above 2 commands
+# start-all.sh
+
+# For Resource Manager webpage
+# 172.22.17.161:8088
+# For Namenode webpage
+# 172.22.17.161:50070
+
+###############################
+###############################
+
+# Configure password less ssh
+# In each of the nodes setup the RSA keys and add these to the ~/.ssh/authorized_keys
+# Use the following command to exchange keys between nodes, which need to be made passwordless
+# Eg: add the id_rsa.pub of masternode to all the slave nodes by running foll command on masternode for all the slaves
+
+# ssh-copy-id -i ~/.ssh/id_rsa.pub hadoop-slaveDN5
+
+# Above command will ask for the password of slaveDN5, once entered the key would be added and next time onwards it won't be asked

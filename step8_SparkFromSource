@@ -1,0 +1,28 @@
+#!/bin/bash
+# Do not run this as super-user
+# Script to install the following softwares on a fresh ubuntu 14.04 64-bit PC
+# 1. Apache Spark 1.5.1
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> sudo apt-get update
+# --> Run software updater and install the latest software updates
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> setup JDK1.8, GIT, and SCALA
+ 
+# Installing Apache Spark 
+# Extract the spark source files in /home/hadoop/spark
+mkdir -p ~/spark
+tar -zxvf ~/Desktop/Backup/spark-1.5.1.tgz -C ~/spark/
+
+# Build the source files (This may take around 1-2 hours or more)
+cd ~/spark/spark-1.5.1
+sbt/sbt assembly
+sbt/sbt package
+
+# Once the build is completed, we can start the spark shell by 
+# bin/spark-shell
+
+
+## Reboot manually

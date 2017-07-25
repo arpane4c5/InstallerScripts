@@ -1,0 +1,27 @@
+#!/bin/bash
+# DO NOT execute this file as super-user
+# For namenode only
+# Script to install hadoop-2.7.1 on ubuntu 14.04 64-bit PC after installing jdk-1.8.0_60
+# Step 2- Installing hadoop-2.7.1 (Pseudo-Distributed Mode - Single Node)
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> Run step1_installJDK before running this file
+# --> Make sure you are connected to Internet.
+ 
+
+
+# Re-Create the following directories
+rm -rf ~/hadoop_tmp
+mkdir -p ~/hadoop_tmp/hdfs/namenode
+mkdir -p ~/hadoop_tmp/hdfs/datanode
+
+
+# Edit hdfs-site.xml -- replication change from 1 to default = 3 // change second 1 to 3 for default case
+# Remove these lines to remove the property corresponding to datanode.data.dir
+sed -i '28,31d' ~/hadoop-2.7.1/etc/hadoop/hdfs-site.xml
+
+
+

@@ -1,0 +1,31 @@
+#!/bin/bash
+# Do not run this as super-user
+# Script to install the following softwares on a fresh ubuntu 14.04 64-bit PC
+# 1. Anaconda (Python utils)
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> sudo apt-get update
+# --> Run software updater and install the latest software updates
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> setup JDK1.8, GIT, and SCALA
+# --> Apache Spark (Not necessary) - step8_SparkFromSource
+ 
+
+# Command to execute the Anaconda shell script - This will install all the required python packages and libs
+bash ~/Desktop/Backup/Anaconda2-2.4.0-Linux-x86_64.sh
+
+# Press enter to go through the license agreement till the following line:
+##" cryptography
+## A Python library which exposes cryptographic recipes and primitives."
+
+# Type "yes". It will be installed in ~/anaconda2 ....
+# Enter to confirm
+# Type "yes" to prepend the anaconda path to $PATH
+
+# Test by typing - This will open the IPython notebook interface in browser - Ctrl +c to stop
+# $ ipython notebook
+
+
+## Reboot manually

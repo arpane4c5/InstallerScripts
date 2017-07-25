@@ -1,0 +1,47 @@
+#!/bin/bash
+# Run this as super-user
+# Script to install the following softwares on a fresh ubuntu 14.04 64-bit PC
+# 1. Apache Ant
+# 2. Gradle 2.7
+# 3. Maven 3.3.3
+# 4. GIT
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> sudo apt-get update
+# --> Run software updater and install the latest software updates
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> setup JDK1.8 and hadoop
+ 
+# Installing Ant 1.9.6
+mkdir -p /usr/local/ant
+tar -zxvf /home/hadoop/Desktop/Backup/apache-ant-1.9.6-bin.tar.gz -C /usr/local/ant
+
+# Installing Maven 3.3.3
+mkdir -p /usr/local/maven
+tar -zxvf /home/hadoop/Desktop/Backup/apache-maven-3.3.3-bin.tar.gz -C /usr/local/maven
+
+# Unzip gradle package (ZIP file)
+mkdir -p /usr/local/gradle
+unzip -d /usr/local/gradle/ /home/hadoop/Desktop/Backup/gradle-2.7-all.zip
+
+# Set the environment variables (append the following lines to ~/.bashrc )
+# Update .bashrc file
+cat <<EOT >> /home/hadoop/.bashrc
+export ANT_HOME=/usr/local/ant/apache-ant-1.9.6
+export PATH=\$PATH:\$ANT_HOME/bin
+export M2_HOME=/usr/local/maven/apache-maven-3.3.3
+export M2=\$M2_HOME/bin
+export MAVEN_OPTS=-Xmx512m
+export PATH=\$PATH:\$M2
+export GRADLE_HOME=/usr/local/gradle/gradle-2.7
+export PATH=\$PATH:\$GRADLE_HOME/bin
+EOT
+
+
+# Install GIT
+apt-get install git
+
+
+## Reboot manually

@@ -1,0 +1,25 @@
+#!/bin/bash
+# DO NOT execute this file as super-user
+# Script to install HIPI on ubuntu 14.04 64-bit PC after installing step1, step2, and step3 scripts
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> Run step1_installJDK, step2_installHadoop and step3_AntMavenGradle before running this file
+# --> Make sure you are connected to Internet.
+ 
+# Step 4: hipi
+# Clone the HIPI Github repo (It will take time) to a new directory
+mkdir -p /home/hadoop/hipi
+git clone https://github.com/uvagfx/hipi.git /home/hadoop/hipi
+
+
+# To build HIPI
+cd /home/hadoop/hipi
+gradle
+gradle clean tools:hibImport:jar
+
+
+# reboot manually
+

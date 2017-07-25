@@ -1,0 +1,16 @@
+#!/bin/bash
+# DO NOT execute this file as super-user
+# Script to install Eclipse on ubuntu 14.04 64-bit PC 
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> Make sure you are connected to Internet.
+ 
+# Step 6: Extract Eclipse (Mars)
+mkdir -p /home/hadoop/ide
+mkdir -p /home/hadoop/EclipseWorkspace
+tar -zxvf /home/hadoop/Desktop/Backup/eclipse-jee-mars-R-linux-gtk-x86_64.tar.gz -C /home/hadoop/ide/
+
+

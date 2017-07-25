@@ -1,0 +1,79 @@
+#!/bin/bash
+# Do not run this as super-user
+# Script to install the following softwares on a fresh ubuntu 14.04 64-bit PC
+# 1. Steps to define the master and slave PCs and make changes in spark-env.sh
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> sudo apt-get update
+# --> Run software updater and install the latest software updates
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changes then make necessary changes in the script as well
+# --> setup JDK1.8, GIT, and SCALA
+# --> Apache Spark (Not necessary) - step8_SparkFromSource
+# --> Anaconda - step9_Anaconda
+ 
+
+# Check for single node by foll command:
+# IPYTHON_OPTS="notebook" ~/spark/spark-1.5.1/bin/pyspark
+
+# To setup for multi-node, goto ~/spark/spark-1.5.1/conf
+# --> make a copy of the spark-env.sh.template as spark-env.sh
+# 	-- Make following changes in the spark-env.sh - export the following variables (for basic config changes)
+#	export SPARK_MASTER_IP=hadoop-masternode
+#	export SPARK_WORKER_CORES=4
+#       export SPARK_WORKER_MEMORY=4g
+#	export SPARK_WORKER_INSTANCES=1
+
+# --> make a copy of the slaves.template as slaves
+#	-- make the following changes to the file (List the hostnames of the slaves) - At present only 1 is added
+# 	hadoop-slaveDN5
+
+
+# Replicate these 2 files in all the nodes of the cluster
+
+# On the masternode execute the following commands 1 by 1
+
+# Start the Distributed file system
+# start-all.sh
+
+
+# Start the master (spark - for masternode)- Eg.- From inside the project folder
+# ~/spark/spark-1.5.1/sbin/start-master.sh
+
+# Check if the master node has been started for spark. Goto browser
+# localhost:8080
+
+# Note the URL given on the webpage : Eg:-
+# spark://hadoop-masternode:7077
+
+# To start the worker nodes - type the following command:
+# ~/spark/spark-1.5.1/sbin/start-slaves.sh spark://hadoop-masternode:7077
+
+###########################################
+# Move the data onto the HDFS - 
+# --> Create the directory structure used for saving the data
+# hadoop fs -mkdir -p /MLProjectData/data
+
+# --> Check that the directory is created (from browser or foll command)
+# hadoop fs -ls /
+
+# Move the data to HDFS - Go inside the directory where data is saved (or use absolute path) 
+# hadoop fs -copyFromLocal ~/MLProjects/data/YearPredictionMSD.txt /MLProjectData/data/
+
+# check that it has been moved to HDFS
+# hadoop fs -ls /MLProjectData/data/
+
+###########################################
+
+# Refresh the page to check whether the worker node has been started
+
+# To launch the application 
+# MASTER=spark://hadoop-masternode:7077 IPYTHON_OPTS="notebook" ~/spark/spark-1.5.1/bin/pyspark
+
+# In the notebook, change the local system path to hdfs path
+# hdfs://hadoop-masternode:9000/MLProjectData/data/YearPredictionMSD.txt
+
+
+
+

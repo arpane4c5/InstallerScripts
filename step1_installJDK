@@ -1,0 +1,44 @@
+#!/bin/bash
+# Run this as super-user
+# Script to install the following softwares on a fresh ubuntu 14.04 64-bit PC
+# 1. jdk-1.8.60
+# 2. hadoop-2.7.1
+# 3. HIPI framework using gradle
+# 4. Apache Ant
+# 5. Opencv-3.0.0
+# 6. Maven 
+
+# Prerequisites:
+# --> Install ubuntu-14.04 (64-bit) on a PC (preferably 4GB RAM) and sufficient free space
+# --> The username should be hadoop (with administrative rights)
+# --> sudo apt-get update
+# --> Run software updater and install the latest software updates
+# --> Copy the Backup folder on the Desktop (It contains all main tar files for jdk, ant, maven, hipi etc)
+#     If the path is changed then make necessary changes in the script as well
+ 
+# Step 1: JDK-1.8.60
+# Assumed that openjdk is not installed on the system and it is running 64 bit OS. If it is installed then execute following cmd
+# sudo apt-get purge openjdk-\*
+# To Create directory /usr/local/java and extract the tar file in it
+mkdir -p /usr/local/java
+tar -zxvf /home/hadoop/Desktop/Backup/jdk-8u60-linux-x64.tar.gz -C /usr/local/java
+
+# Set the environment variables (append the following lines to /etc/profile )
+cat <<EOT >> /etc/profile
+JAVA_HOME=/usr/local/java/jdk1.8.0_60
+PATH=\$PATH:\$JAVA_HOME/bin
+export JAVA_HOME
+export PATH
+EOT
+
+# update-alternatives --install
+update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk1.8.0_60/bin/java" 1
+update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk1.8.0_60/bin/javac" 1
+update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk1.8.0_60/bin/javaws" 1
+
+# update-alternatives --set
+update-alternatives --set java /usr/local/java/jdk1.8.0_60/bin/java
+update-alternatives --set javac /usr/local/java/jdk1.8.0_60/bin/javac
+update-alternatives --set javaws /usr/local/java/jdk1.8.0_60/bin/javaws
+
+## Reboot manually
