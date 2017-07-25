@@ -1,6 +1,6 @@
 # InstallerScripts : Scripts to setup hadoop tools (tested on Ubuntu 14.04)
 
-The scripts were prepared by me while setting up a 5 node hadoop cluster in my lab. They should not be used 'as-is', since the settings might differ for your systems. I had installed Ubuntu 14.04 on all the nodes, with 'hadoop' as the username for all (The passwords may differ). It is recommended that you go through the scripts and make the necessary changes (usernames or file/folder paths) and then execute the scripts, starting from 'step1_...'. It is mentioned in each script, which has to be executed as root and which is not i.e., for execution as root ' sudo ./stepX_... '. Use 'chmod +x stepX...' to make the file executable.
+The scripts were prepared by me while setting up a 5 node hadoop cluster in my lab. They should not be used 'as-is', since the settings might differ for your systems. I had installed Ubuntu 14.04 on all the nodes, with 'hadoop' as the username for all (The passwords may differ). It is recommended that you go through the scripts and make the necessary changes (usernames or file/folder paths) and then execute the scripts, starting from 'step1_...'. It is mentioned in each script, which has to be executed as root and which is not i.e., for execution as root `sudo ./stepX_...`. Use `chmod +x stepX...` to make the file executable.
 
 ## Prerequisites and some instructions
 
@@ -8,11 +8,11 @@ The scripts were prepared by me while setting up a 5 node hadoop cluster in my l
 
 * Create a folder named 'Backup' on the Desktop and store the following softwares (as per your requirements) into the folder: jdk-8u60-linux-x64.tar.gz, scala, eclipse(if needed), apache-ant, apache-maven, gradle, spark, hadoop-2.7.1, opencv-3.X, cuda_8.X_linux.run, Anaconda2-2.4.0-Linux-x86_64 etc.
 
-* sudo apt-get update
+* `sudo apt-get update`
 
-* Make sure that openjdk is NOT installed (Hadoop works with Oracle JDK). If it is installed, then remove it using 'sudo apt-get purge openjdk-*'
+* Make sure that openjdk is NOT installed (Hadoop works with Oracle JDK). If it is installed, then remove it using `sudo apt-get purge openjdk-*`
 
-* The commands in the scripts are written such that they are valid if executed as a part of the script (i.e., using ./stepX_...). If you wish to copy and paste the commands one by one, then make sure that you modify the commands as per the correct syntax, e.g., wherever when writing a path to .bashrc the \$ will be replace by $ in the line export HADOOP_HDFS_HOME=\$HADOOP_HOME.
+* The commands in the scripts are written such that they are valid if executed as a part of the script (i.e., using ./stepX_...). If you wish to copy and paste the commands one by one, then make sure that you modify the commands as per the correct syntax, e.g., wherever when writing a path to `.bashrc` the `\$` will be replace by `$` in the line `export HADOOP_HDFS_HOME=\$HADOOP_HOME`.
 
 * The files core.txt, mapred.txt, yarn.txt and hdfs.txt are helper files containing lines which need to be copied to the corresponding config files of hadoop. The script step2_installHadoop has commands that copies the lines from these files and puts them in the correct places in the config files. 
 
